@@ -5,6 +5,13 @@ from components.sidebar import render_sidebar
 from components.chat_interface import render_chat_interface
 from utils.api_client import ApiClient
 
+# Set page configuration at the very beginning
+st.set_page_config(
+    page_title="P2P Anonymous Chat",
+    page_icon="💬",
+    layout="wide"
+)
+
 def main():
     # Initialize session state
     if 'user_id' not in st.session_state:
@@ -17,16 +24,10 @@ def main():
             api_base_url = st.secrets["API_URL"]
         except (FileNotFoundError, KeyError):
             # Fall back to environment variables or default
-            api_base_url = os.environ.get("API_URL", "http://localhost:5000/api")
+            api_base_url = os.environ.get("API_URL", "https://chat.stefanusadri.my.id/api")
             st.warning("Using API URL from environment: " + api_base_url)
         
         st.session_state.api_client = ApiClient(api_base_url)
-    
-    st.set_page_config(
-        page_title="P2P Anonymous Chat",
-        page_icon="💬",
-        layout="wide"
-    )
     
     # Render sidebar (returns active room ID)
     active_room = render_sidebar()
