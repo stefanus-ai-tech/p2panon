@@ -11,3 +11,4 @@ gunicorn==21.2.0
 # Frontend
 streamlit==1.26.0
 requests==2.31.0
+humanize==4.6.0

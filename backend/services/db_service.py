@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from ..models.chat import Base
 from ..config import Config
 
-engine = create_engine(Config.SQLALCHEMY_DATABASE_URI)
+engine = create_engine(Config.SQLALCHEMY_DATABASE_URI, pool_size=100)
 session_factory = sessionmaker(bind=engine)
 Session = scoped_session(session_factory)
 

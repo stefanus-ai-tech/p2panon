@@ -1,6 +1,6 @@
 # Cloudflared tunnel configuration
 tunnel: p2panon-backend
-credentials-file: /home/adri/Documents/GitHub/p2panon/cloudflare/.cloudflared/credentials.json
+credentials-file: /home/adri/Documents/GitHub/p2panon-all/p2panon/cloudflare/.cloudflared/credentials.json
 
 ingress:
   - hostname: chat.stefanusadri.my.id
