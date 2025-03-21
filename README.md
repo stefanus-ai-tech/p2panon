@@ -9,6 +9,7 @@ A simple, anonymous peer-to-peer chat application with a Flask backend and Strea
 - Anonymous messaging with no registration required
 - Real-time chat updates
 - Clean, minimalist UI
+- **Secure tunneling via Cloudflare Tunnel**
 
 ## Setup Instructions
 
@@ -17,6 +18,7 @@ A simple, anonymous peer-to-peer chat application with a Flask backend and Strea
 - Python 3.8+
 - pip (Python package manager)
 - Virtual environment (optional but recommended)
+- Cloudflared CLI (for tunneling the backend API)
 
 ### Installation
 
@@ -48,6 +50,10 @@ cp .env.example .env
 
 Edit the `.env` file with your configuration settings.
 
+5. Install Cloudflared:
+
+Follow the instructions at https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation to install Cloudflared on your system.
+
 ### Running the Application
 
 #### Method 1: Using Python directly
@@ -66,15 +72,48 @@ cd frontend
 streamlit run app.py
 ```
 
+3. Start the Cloudflare Tunnel:
+
+```bash
+chmod +x cloudflare/start_tunnel.sh
+./cloudflare/start_tunnel.sh
+```
+
 #### Method 2: Using Docker Compose
 
 ```bash
 docker-compose up -d
 ```
 
+### Setting up Cloudflare Tunnel
+
+1. Log in to Cloudflared once before running the tunnel:
+
+```bash
+mkdir -p cloudflare/.cloudflared
+cloudflared tunnel login
+```
+
+2. Create a new tunnel:
+
+```bash
+cloudflared tunnel create p2panon-backend
+```
+
+3. Copy the credentials JSON file to the cloudflare/.cloudflared directory
+
+4. Update the hostname in cloudflare/config.yml to your desired hostname
+
+5. Create a DNS record for your tunnel:
+
+```bash
+cloudflared tunnel route dns p2panon-backend your-tunnel-hostname.example.com
+```
+
 ### Accessing the Application
 
-- Backend API: http://localhost:5000/api
+- Backend API (local): http://localhost:5000/api
+- Backend API (tunneled): https://your-tunnel-hostname.example.com/api
 - Frontend: http://localhost:8501
 
 ## Usage

@@ -33,3 +33,13 @@ services:
       - backend
     restart: always
     command: ["streamlit", "run", "frontend/app.py"]
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel run
+    volumes:
+      - ./cloudflare/config.yml:/etc/cloudflared/config.yml
+      - ./cloudflare/.cloudflared:/etc/cloudflared
+    depends_on:
+      - backend
