@@ -30,6 +30,65 @@ def create_app(config_class=Config):
     # Register blueprints
     app.register_blueprint(chat_routes.bp)
     
+    @app.route('/')
+    def index():
+        """Return a simple HTML page indicating the tunnel is running"""
+        hostname = os.environ.get('TUNNEL_HOSTNAME', 'chat.stefanusadri.my.id')
+        html = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>P2P Anonymous Chat - Backend</title>
+            <style>
+                body {{
+                    font-family: Arial, sans-serif;
+                    text-align: center;
+                    margin-top: 50px;
+                    background-color: #f5f5f5;
+                }}
+                .container {{
+                    background-color: white;
+                    border-radius: 10px;
+                    padding: 20px;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                    max-width: 600px;
+                    margin: 0 auto;
+                }}
+                .status {{
+                    color: #4CAF50;
+                    font-weight: bold;
+                }}
+                .info {{
+                    margin-top: 20px;
+                    font-size: 14px;
+                    color: #666;
+                }}
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>P2P Anonymous Chat</h1>
+                <p>Backend API Status: <span class="status">RUNNING</span></p>
+                <p>Cloudflare Tunnel: <span class="status">ACTIVE</span></p>
+                <p>Hostname: <strong>{hostname}</strong></p>
+                
+                <div class="info">
+                    <p>API Endpoints:</p>
+                    <ul style="text-align: left; display: inline-block;">
+                        <li>Health Check: <code>/health</code></li>
+                        <li>API Base: <code>/api</code></li>
+                    </ul>
+                </div>
+                
+                <div class="info">
+                    <p>To use the web interface, open: <a href="http://localhost:8501">http://localhost:8501</a></p>
+                </div>
+            </div>
+        </body>
+        </html>
+        """
+        return html
+
     @app.route('/health')
     def health():
         return {'status': 'healthy'}

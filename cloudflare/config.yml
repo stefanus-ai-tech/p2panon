@@ -3,6 +3,6 @@ tunnel: p2panon-backend
 credentials-file: /home/adri/Documents/GitHub/p2panon/cloudflare/.cloudflared/credentials.json
 
 ingress:
-  - hostname: your-tunnel-hostname.example.com
+  - hostname: chat.stefanusadri.my.id
     service: http://localhost:5000
   - service: http_status:404
