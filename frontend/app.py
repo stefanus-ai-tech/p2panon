@@ -13,8 +13,9 @@ def main():
     if 'api_client' not in st.session_state:
         # Try to get API URL from secrets, environment variables, or use default
         try:
-            api_base_url = st.secrets.get("API_URL")
-        except FileNotFoundError:
+            # Fix: use dictionary access instead of .get() method
+            api_base_url = st.secrets["API_URL"]
+        except (FileNotFoundError, KeyError):
             # Fall back to environment variables or default
             api_base_url = os.environ.get("API_URL", "http://localhost:5000/api")
             st.warning("Using API URL from environment: " + api_base_url)
